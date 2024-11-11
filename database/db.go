@@ -1,6 +1,8 @@
 package database
 
 import (
+	"fmt"
+	"os"
 	"swagger/models"
 
 	"gorm.io/driver/postgres"
@@ -10,10 +12,25 @@ import (
 var DB *gorm.DB
 
 func InitDB() {
-	dsn := "host=postgres.railway.internal user=postgres password=gUieLHoETvEyGCwWfjrovAGrXXRvsDVm dbname=carsapi port=railway sslmode=disable"
+	var (
+		host     = os.Getenv("DB_HOST")
+		port     = os.Getenv("DB_PORT")
+		user     = os.Getenv("DB_USER")
+		password = os.Getenv("DB_PASSWORD")
+		dbname   = os.Getenv("DB_NAME")
+	)
+
+	psqlInfo := fmt.Sprintf(`
+	host=%s 
+	port=%s 
+	user=%s `+`
+	password=%s 
+	dbname=%s 
+	sslmode=disable`,
+		host, port, user, password, dbname)
 
 	var err error
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(psqlInfo), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
