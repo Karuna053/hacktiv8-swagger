@@ -1,0 +1,76 @@
+basePath: /
+definitions:
+  models.Car:
+    properties:
+      harga:
+        type: integer
+      id:
+        type: integer
+      merk:
+        type: string
+      pemilik:
+        type: string
+      typeCars:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is an application for activity cars API
+  title: Cars API
+  version: "2.0"
+paths:
+  /cars:
+    get:
+      consumes:
+      - application/json
+      description: Get all cards
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Car'
+      summary: Get all cars
+      tags:
+      - cars
+    post:
+      consumes:
+      - application/json
+      description: Create a new car entry.
+      parameters:
+      - description: Input Create Car
+        in: body
+        name: models.Car
+        required: true
+        schema:
+          $ref: '#/definitions/models.Car'
+      produces:
+      - application/json
+      responses: {}
+      summary: Create a new car entry.
+      tags:
+      - cars
+  /cars/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Update the card corresponding to the input ID
+      parameters:
+      - description: ID of the car to be updated
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "20":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Car'
+      summary: Update car identified by the given ID
+      tags:
+      - cars
+swagger: "2.0"
